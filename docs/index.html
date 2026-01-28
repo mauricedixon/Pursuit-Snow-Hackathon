@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snow Hype Meter - Will It Snow?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Noise overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #22d3ee, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        
+        /* Glitch effect */
+        .hero h1::before,
+        .hero h1::after {
+            content: 'WILL IT SNOW?';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #22d3ee, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero h1::before {
+            animation: glitch1 0.3s infinite;
+            color: #ff0040;
+            z-index: -1;
+        }
+        
+        .hero h1::after {
+            animation: glitch2 0.3s infinite;
+            color: #00ffff;
+            z-index: -2;
+        }
+        
+        @keyframes glitch1 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+        }
+        
+        @keyframes glitch2 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(2px, -2px); }
+            40% { transform: translate(-2px, 2px); }
+            60% { transform: translate(1px, -1px); }
+            80% { transform: translate(-1px, 1px); }
+        }
+        
+        .tagline {
+            color: #666;
+            font-size: 0.9rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+        
+        /* Video Section */
+        .video-section {
+            margin: 3rem 0;
+            text-align: center;
+        }
+        
+        .video-container {
+            position: relative;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #333;
+            background: #111;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+        
+        .video-container video {
+            width: 100%;
+            display: block;
+        }
+        
+        .video-placeholder {
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
+            color: #444;
+            font-size: 0.9rem;
+        }
+        
+        .video-placeholder span {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .video-caption {
+            color: #666;
+            font-size: 0.75rem;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, #22d3ee, #2563eb);
+            color: #000;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-radius: 50px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(34, 211, 238, 0.3);
+        }
+        
+        /* Info Cards */
+        .info-section {
+            padding: 3rem 0;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .info-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #222;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+        
+        .info-card h3 {
+            color: #22d3ee;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        
+        .info-card p {
+            color: #999;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        /* How It Works */
+        .how-section {
+            padding: 3rem 0;
+            border-top: 1px solid #222;
+        }
+        
+        .how-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #fff;
+        }
+        
+        .verdict-list {
+            list-style: none;
+        }
+        
+        .verdict-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #1a1a1a;
+        }
+        
+        .verdict-score {
+            background: #22d3ee;
+            color: #000;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .verdict-label {
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .verdict-desc {
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        /* Tech Stack */
+        .tech-section {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid #222;
+        }
+        
+        .tech-section h2 {
+            font-size: 0.8rem;
+            letter-spacing: 0.3em;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .tech-badge {
+            background: #111;
+            border: 1px solid #333;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: #444;
+            font-size: 0.8rem;
+        }
+        
+        footer a {
+            color: #22d3ee;
+            text-decoration: none;
+        }
+        
+        .team {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="hero">
+            <h1>Will It Snow?</h1>
+            <p class="tagline">Hype Meter v1.0</p>
+        </section>
+        
+        <section class="video-section">
+            <div class="video-container">
+                <!-- Replace with actual Veo video when available -->
+                <div class="video-placeholder">
+                    <span>❄️</span>
+                    <p>[ Intro Video ]</p>
+                    <p style="font-size: 0.75rem; margin-top: 0.5rem;">People rushing to buy supplies during a snowstorm</p>
+                </div>
+                <!-- 
+                When you have the video file, replace the placeholder div with:
+                <video autoplay loop muted playsinline>
+                    <source src="intro.mp4" type="video/mp4">
+                </video>
+                -->
+            </div>
+            <p class="video-caption">Every winter, the same panic. We built something better.</p>
+        </section>
+        
+        <section class="cta-section">
+            <a href="#" class="cta-button">Launch the App</a>
+            <p style="color: #444; font-size: 0.75rem; margin-top: 1rem;">Real-time weather data. Real hype calculations.</p>
+        </section>
+        
+        <section class="info-section">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>The Problem</h3>
+                    <p>There's a chance of snow and suddenly everyone loses their minds. Schools panic. Parents panic. The grocery store runs out of bread and milk.</p>
+                </div>
+                <div class="info-card">
+                    <h3>The Solution</h3>
+                    <p>Snow Hype Meter pulls real-time weather data and runs it through our Hype Engine to tell you if the panic is actually justified.</p>
+                </div>
+                <div class="info-card">
+                    <h3>The Verdict</h3>
+                    <p>We don't just give you a number. We give you a verdict you can understand: from "TOTAL DUD" to "ABSOLUTE CHAOS".</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="how-section">
+            <h2>Hype Levels</h2>
+            <ul class="verdict-list">
+                <li>
+                    <span class="verdict-score">90-100</span>
+                    <span class="verdict-label">ABSOLUTE CHAOS</span>
+                    <span class="verdict-desc">— Stay home. Stock up. It's happening.</span>
+                </li>
+                <li>
+                    <span class="verdict-score">70-89</span>
+                    <span class="verdict-label">SCHOOL CLOSING IMMINENT</span>
+                    <span class="verdict-desc">— Keep your phone charged.</span>
+                </li>
+                <li>
+                    <span class="verdict-score">50-69</span>
+                    <span class="verdict-label">DELAY POTENTIAL</span>
+                    <span class="verdict-desc">— Could go either way.</span>
+                </li>
+                <li>
+                    <span class="verdict-score">30-49</span>
+                    <span class="verdict-label">GROCERY RUN</span>
+                    <span class="verdict-desc">— Maybe grab some supplies.</span>
+                </li>
+                <li>
+                    <span class="verdict-score">1-29</span>
+                    <span class="verdict-label">JUST COLD</span>
+                    <span class="verdict-desc">— Wear a jacket.</span>
+                </li>
+                <li>
+                    <span class="verdict-score">0</span>
+                    <span class="verdict-label">TOTAL DUD</span>
+                    <span class="verdict-desc">— Go back to bed.</span>
+                </li>
+            </ul>
+        </section>
+        
+        <section class="tech-section">
+            <h2>Built With</h2>
+            <div class="tech-list">
+                <span class="tech-badge">React 19</span>
+                <span class="tech-badge">Vite</span>
+                <span class="tech-badge">Tailwind CSS</span>
+                <span class="tech-badge">Framer Motion</span>
+                <span class="tech-badge">Open-Meteo API</span>
+            </div>
+        </section>
+        
+        <footer>
+            <p>&copy; 2025 Snow Hype Team — <a href="https://github.com/mauricedixon/Pursuit-Snow-Hackathon">View on GitHub</a></p>
+            <p class="team">Pursuit Snow Hackathon</p>
+            <p style="margin-top: 0.5rem; color: #333;">Don't sue us if you have school.</p>
+        </footer>
+    </div>
+</body>
+</html>
