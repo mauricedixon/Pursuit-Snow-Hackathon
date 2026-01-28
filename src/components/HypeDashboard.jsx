@@ -5,6 +5,7 @@ import GlitchText from './visuals/GlitchText';
 import HypeGauge from './visuals/HypeGauge';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
+import CitySelector from './layout/CitySelector';
 
 export default function HypeDashboard() {
     const { loading, data } = useHype();
@@ -38,11 +39,20 @@ export default function HypeDashboard() {
 
             <Header />
 
+            <CitySelector />
+
             <main className="w-full max-w-3xl relative z-10">
                 <div className="bg-neutral-800/50 backdrop-blur-md border border-neutral-700/50 p-8 md:p-12 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] text-center relative overflow-hidden">
 
-                    <h2 className="text-lg md:text-xl text-neutral-400 font-medium mb-8 uppercase tracking-wide">
-                        Details for <span className="text-white border-b border-cyan-500/30">{data.weather.location}</span>
+                    <h2 className="text-lg md:text-xl text-neutral-400 font-medium mb-8 uppercase tracking-wide flex flex-col items-center gap-2">
+                        <span>Details for <span className="text-white border-b border-cyan-500/30">{data.weather.location}</span></span>
+                        <div className="flex items-center gap-4 text-xs md:text-sm font-mono text-cyan-500/80 bg-black/20 px-3 py-1 rounded-full border border-neutral-700/50">
+                            <span>{data.weather.temp}°F</span>
+                            <span>•</span>
+                            <span>{data.weather.condition.toUpperCase()}</span>
+                            <span>•</span>
+                            <span>WIND: {data.weather.windSpeed} MPH</span>
+                        </div>
                     </h2>
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-12 mb-10">

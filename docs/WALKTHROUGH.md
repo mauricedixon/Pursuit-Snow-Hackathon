@@ -6,23 +6,22 @@ The project has been successfully initialized with:
 - Tailwind CSS v4 (configured via PostCSS)
 - Framer Motion
 
-## Core Architecture (Phase 2)
+## Core Architecture (Phase 2 & 3)
 The "Core Architect" has implemented:
 - **HypeContext**: Global state management.
-- **WeatherService**: **Real Data Integration** via [Open-Meteo API](https://open-meteo.com/). No API key required.
-- **Integration**: Accessing weather data via `useHype()` hook in the dashboard.
+- **WeatherService**: **Real Data Integration** via [Open-Meteo API](https://open-meteo.com/).
+- **Multi-City Support**: Fetches data for Boston, NYC, Chicago, Detroit, Miami, and San Francisco.
 
-## Visuals & Vibes (Phase 2)
+## Visuals & Vibes
 The "Vibe Specialist" has added:
 - **GlitchText**: A chromatic aberration text effect component.
 - **HypeGauge**: A circular progress meter using Framer Motion SVG.
-- **Dashboard Polish**: Interactive loading states and layout improvements.
 
-## Polish & QA / AI (Phase 3)
-The "Polish & QA" and "AI Engineer" roles have added:
-- **Layout Components**: Modular `Header` and `Footer` components.
-- **AI Integration**: `aiService` generates dynamic "Hype Summaries" based on the real time score.
-- **Hype Logic**: `hypeEngine.js` now processes real temperature and weather codes to calculate the score.
+## Polish & Layout
+The "Polish & QA" role has added:
+- **CitySelector**: A UI component to switch between cities.
+- **Layout Components**: Header, Footer, and responsive container.
+- **Data Visibility**: Temperature (`°F`) and conditions (e.g. `SNOW`) are now explicitly shown in the UI to prove live data usage.
 
 ## Running the Project
 1. **Install Dependencies**:
@@ -39,10 +38,9 @@ The "Polish & QA" and "AI Engineer" roles have added:
    Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ## Current Features
-- **Hype Dashboard**: A visual meter showing the "Hype Score".
-- **Visual Effects**: Glitch text, animated gauges, backdrop blur.
-- **Real Data**: Weather data comes from Open-Meteo (defaulted to Boston, MA).
+- **City Switching**: Click on city chips to update the hype score in real-time.
+- **Real-Time Data**: API fetches current temperature and conditions. The dashboard displays `TEMP • CONDITION • WIND`.
+- **AI Summary**: Generates hype-appropriate text based on the retrieved data and city location.
 
 ## Next Steps
-- **Git Push**: The project is ready to be committed to version control.
-- **Custom Location**: Add a search bar to change the hardcoded Boston coordinates.
+- **Git Push**: Commit the new feature.

@@ -4,9 +4,14 @@
  * Fetches real weather data from Open-Meteo API.
  */
 
-// Boston Coordinates
-const LAT = 42.3601;
-const LON = -71.0589;
+export const CITIES = [
+    { name: "Boston, MA", lat: 42.3601, lon: -71.0589 },
+    { name: "NYC, NY", lat: 40.7128, lon: -74.0060 },
+    { name: "Chicago, IL", lat: 41.8781, lon: -87.6298 },
+    { name: "Detroit, MI", lat: 42.3314, lon: -83.0458 },
+    { name: "Miami, FL", lat: 25.7617, lon: -80.1918 },
+    { name: "San Fran, CA", lat: 37.7749, lon: -122.4194 },
+];
 
 // Map WMO codes to readable conditions
 function getConditionFromCode(code) {
@@ -27,33 +32,28 @@ function getConditionFromCode(code) {
     return codes[code] || "High Hype Potential"; // Fallback
 }
 
-export async function fetchWeatherData(location = "Boston, MA") {
+export async function fetchWeatherData(lat, lon) {
     try {
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,weather_code,wind_speed_10m,precipitation_probability&temperature_unit=fahrenheit&wind_speed_unit=mph`;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,wind_speed_10m,precipitation_probability&temperature_unit=fahrenheit&wind_speed_unit=mph`;
 
         const response = await fetch(url);
         const data = await response.json();
         const current = data.current;
 
         return {
-            location: location,
             temp: Math.round(current.temperature_2m),
             condition: getConditionFromCode(current.weather_code),
             windSpeed: Math.round(current.wind_speed_10m),
-            // Open-Meteo current precip prob is sometimes not available in standard param, 
-            // but 'precipitation_probability' is hourly. For simplicity/MVP, using a mock fallback if 0 to keep the hype alive
-            // or we can just map it directly. Let's try to be honest but hype-ready.
             precipProb: current.precipitation_probability || 0,
             timestamp: new Date().toISOString(),
-            rawCode: current.weather_code // Useful for logic if needed
+            rawCode: current.weather_code
         };
     } catch (error) {
         console.error("Failed to fetch weather:", error);
-        // Fallback in case API fails during demo
+        // Fallback
         return {
-            location: location,
             temp: 32,
-            condition: "Data Glitch (Network Error)",
+            condition: "Data Glitch",
             windSpeed: 0,
             precipProb: 0,
             timestamp: new Date().toISOString()

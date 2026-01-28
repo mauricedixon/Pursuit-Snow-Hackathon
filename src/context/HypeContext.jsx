@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { fetchWeatherData } from '../lib/weatherService';
+import { fetchWeatherData, CITIES } from '../lib/weatherService';
 import { calculateHypeScore } from '../lib/hypeEngine';
 import { generateHypeSummary } from '../lib/aiService';
 
@@ -9,18 +9,24 @@ export function HypeProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
+    const [activeCity, setActiveCity] = useState(CITIES[0]); // Default to first city
 
-    // Initial data load
+    // Fetch data whenever activeCity changes
     useEffect(() => {
         refreshHype();
-    }, []);
+    }, [activeCity]);
 
     const refreshHype = async () => {
         setLoading(true);
         setError(null);
         try {
-            // 1. Get raw weather data
-            const weather = await fetchWeatherData();
+            // 1. Get raw weather data using active city coords
+            const rawWeather = await fetchWeatherData(activeCity.lat, activeCity.lon);
+
+            const weather = {
+                ...rawWeather,
+                location: activeCity.name
+            };
 
             // 2. Pass to Hype Engine
             const hypeResult = calculateHypeScore(weather);
@@ -45,7 +51,15 @@ export function HypeProvider({ children }) {
     };
 
     return (
-        <HypeContext.Provider value={{ loading, data, error, refreshHype }}>
+        <HypeContext.Provider value={{
+            loading,
+            data,
+            error,
+            refreshHype,
+            activeCity,
+            setActiveCity,
+            cities: CITIES
+        }}>
             {children}
         </HypeContext.Provider>
     );
