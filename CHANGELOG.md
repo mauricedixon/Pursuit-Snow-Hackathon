@@ -6,10 +6,13 @@ All notable changes to the "Will It Snow? Hype Meter" project will be documented
 
 ## [1.2.0] - 2026-01-27
 ### Added
-- **Multi-City Support**: Added support for 6 major cities (Boston, NYC, Chicago, Detroit, Miami, San Francisco).
+- **Multi-City Support**: Added support for 7 major cities (Boston, NYC, Chicago, Detroit, Miami, San Francisco, Anchorage).
+- **Zipcode Search**: Users can now search by US Zipcode to find local hype (powered by Zippopotam.us).
 - **City Selector**: New UI component to switch locations easily.
 - **Live Data Visibility**: Dashboard now displays raw temperature, condition, and wind speed to verify real-time data.
 - **Context-Aware AI**: `aiService` now includes the city name and specific conditions in its "Hype Summaries".
+- **Visual Polish**: Added "Snow Particle System" (Blizzard) and Dynamic Backgrounds that react to Hype Score.
+- **Layout Improvements**: Centered the main header and improved mobile responsiveness.
 
 ## [1.1.0] - 2026-01-27
 ### Changed

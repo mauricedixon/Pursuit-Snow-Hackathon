@@ -11,6 +11,7 @@ export const CITIES = [
     { name: "Detroit, MI", lat: 42.3314, lon: -83.0458 },
     { name: "Miami, FL", lat: 25.7617, lon: -80.1918 },
     { name: "San Fran, CA", lat: 37.7749, lon: -122.4194 },
+    { name: "Anchorage, AK", lat: 61.2181, lon: -149.9003 },
 ];
 
 // Map WMO codes to readable conditions
@@ -30,6 +31,23 @@ function getConditionFromCode(code) {
         95: "Thunderstorm", 96: "Thunderstorm + Hail", 99: "Thunderstorm + Heavy Hail"
     };
     return codes[code] || "High Hype Potential"; // Fallback
+}
+
+export async function fetchCoordinatesByZip(zip) {
+    try {
+        const response = await fetch(`https://api.zippopotam.us/us/${zip}`);
+        if (!response.ok) throw new Error("Zip code not found");
+        const data = await response.json();
+
+        return {
+            name: `${data.places[0]["place name"]}, ${data.places[0]["state abbreviation"]}`,
+            lat: parseFloat(data.places[0].latitude),
+            lon: parseFloat(data.places[0].longitude)
+        };
+    } catch (error) {
+        console.error("Failed to fetch zip coordinates:", error);
+        return null;
+    }
 }
 
 export async function fetchWeatherData(lat, lon) {

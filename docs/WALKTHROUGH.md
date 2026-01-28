@@ -12,8 +12,10 @@ The "Core Architect" has implemented:
 - **WeatherService**: **Real Data Integration** via [Open-Meteo API](https://open-meteo.com/).
 - **Multi-City Support**: Fetches data for Boston, NYC, Chicago, Detroit, Miami, and San Francisco.
 
-## Visuals & Vibes
+## Visuals & Vibes (Phase 4)
 The "Vibe Specialist" has added:
+- **Snow Particles**: A dynamic blizzard system that reacts to hype intensity (None -> Light -> Heavy).
+- **Reactive Backgrounds**: The dashboard background glows Red/Cyan/Grey based on the severity of the forecast.
 - **GlitchText**: A chromatic aberration text effect component.
 - **HypeGauge**: A circular progress meter using Framer Motion SVG.
 
@@ -39,8 +41,8 @@ The "Polish & QA" role has added:
 
 ## Current Features
 - **City Switching**: Click on city chips to update the hype score in real-time.
-- **Real-Time Data**: API fetches current temperature and conditions. The dashboard displays `TEMP • CONDITION • WIND`.
-- **AI Summary**: Generates hype-appropriate text based on the retrieved data and city location.
+- **Real-Time Data**: API fetches current temperature and conditions.
+- **Visual Feedback**: Background colors and snow intensity change instantly based on the "Hype Score".
 
 ## Next Steps
-- **Git Push**: Commit the new feature.
+- **Git Push**: Commit the new visual features.

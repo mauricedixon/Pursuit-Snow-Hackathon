@@ -6,6 +6,7 @@ import HypeGauge from './visuals/HypeGauge';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
 import CitySelector from './layout/CitySelector';
+import SnowParticles from './visuals/SnowParticles';
 
 export default function HypeDashboard() {
     const { loading, data } = useHype();
@@ -32,14 +33,25 @@ export default function HypeDashboard() {
 
     const { hype } = data;
 
+    // Dynamic Background Logic
+    const getBgColor = (score) => {
+        if (score >= 80) return "bg-neutral-900 shadow-[inset_0_0_100px_rgba(255,0,0,0.2)]"; // High Hype
+        if (score >= 50) return "bg-neutral-900 shadow-[inset_0_0_100px_rgba(34,211,238,0.2)]"; // Med Hype
+        return "bg-neutral-900"; // Low Hype
+    };
+
     return (
-        <div className="min-h-screen bg-neutral-900 text-white p-4 flex flex-col items-center justify-center selection:bg-cyan-500 selection:text-black overflow-hidden relative">
+        <div className={`min-h-screen text-white p-4 flex flex-col items-center justify-center selection:bg-cyan-500 selection:text-black overflow-hidden relative transition-all duration-1000 ${getBgColor(hype.score)}`}>
             {/* Background Noise/Effect */}
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0"></div>
 
-            <Header />
+            {/* Snow Particle System */}
+            <SnowParticles score={hype.score} />
 
-            <CitySelector />
+            <div className="relative z-10 w-full flex flex-col items-center">
+                <Header />
+                <CitySelector />
+            </div>
 
             <main className="w-full max-w-3xl relative z-10">
                 <div className="bg-neutral-800/50 backdrop-blur-md border border-neutral-700/50 p-8 md:p-12 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] text-center relative overflow-hidden">
